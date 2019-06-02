@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
-import groupsReducer from "./modules/groups";
-import linksReducer from "./modules/links";
+import idAppReducer from "./modules/idPassApp";
+import linkAppReducer from "./modules/linkApp";
+import todoAppReducer from "./modules/todoApp";
 
 export default combineReducers({
-  groupsReducer,
-  linksReducer
+  todoAppReducer,
+  idAppReducer,
+  linkAppReducer
 });

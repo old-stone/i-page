@@ -1,23 +1,22 @@
 // Actions
-const ADD_LINK = "ADD_LINK";
+const ADD_TODO = "ADD_TODO";
 
 // Reducer
 const initialState = {
   byId: {
-    // 0: {
-    //   id: 0,
-    //   name: "hoge"
-    //   url: "http://localhost"
-    //   description: "ほげ"
-    //   isEditMode: false
-    // }
+    0: {
+      id: 0,
+      name: "サンプル",
+      description: "サンプル用のグループです",
+      limitTime: new Date()
+    }
   },
-  allIds: []
+  allIds: [0]
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_LINK:
+    case ADD_TODO:
       const nextId = state.allIds[state.allIds.length - 1] + 1 || 0;
       return {
         ...state,
@@ -25,10 +24,8 @@ const reducer = (state = initialState, action) => {
           ...state.byId,
           [nextId]: {
             id: nextId,
-            name: action.payload.name,
-            url: action.payload.url,
             description: action.payload.description,
-            isEditMode: action.payload.isEditMode
+            limitTime: action.payload.limitTime
           }
         },
         allIds: [...state.allIds, nextId]
@@ -38,17 +35,15 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export default reducer;
-
-// Action Creators
-export const addLink = (name, url, description) => {
+export const addTodo = (name, description, limitTime) => {
   return {
-    type: ADD_LINK,
+    type: ADD_GROUP,
     payload: {
       name: name,
-      url: url,
       description: description,
-      isEditMode: false
+      limitTIme: limitTime
     }
   };
 };
+
+export default reducer;

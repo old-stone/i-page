@@ -1,6 +1,6 @@
 // Actions
 const ADD_GROUP = "ADD_GROUP";
-const ADD_LINK_TO_GROUP = "ADD_LINK_TO_GROUP";
+const ADD_ITEM_TO_GROUP = "ADD_ITEM_TO_GROUP";
 const GROUP_FETCH_REQUESTED = "GROUP_FETCH_REQUESTED";
 
 // Reducer
@@ -8,9 +8,9 @@ const initialState = {
   byId: {
     0: {
       id: 0,
-      name: "サンプル",
-      description: "サンプル用のグループです",
-      links: []
+      title: "検索系",
+      description: "グループサンプル",
+      items: [0]
     }
   },
   allIds: [0]
@@ -26,13 +26,13 @@ const reducer = (state = initialState, action) => {
           ...state.byId,
           [nextId]: {
             id: nextId,
-            name: action.payload.name,
-            links: action.payload.links
+            title: action.payload.title,
+            items: action.payload.items
           }
         },
         allIds: [...state.allIds, nextId]
       };
-    case ADD_LINK_TO_GROUP:
+    case ADD_ITEM_TO_GROUP:
       const { groupId, linkId } = action.payload;
       return {
         ...state,
@@ -49,11 +49,11 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const addGroup = (name, description) => {
+export const addGroup = (title, description) => {
   return {
     type: ADD_GROUP,
     payload: {
-      name: name,
+      title: title,
       description: description,
       links: []
     }
