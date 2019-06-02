@@ -38,7 +38,7 @@ function Group(props) {
         <CardContent className={classes.cardContent}>
           <Grid container spacing={2}>
             {items.map(item => (
-              <Grid item xs={3} key={item.id}>
+              <Grid item xs={12} md={3} key={item.id}>
                 <LinkItem
                   groupId={groupId}
                   itemId={item.id}

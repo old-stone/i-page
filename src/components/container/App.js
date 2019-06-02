@@ -20,7 +20,7 @@ function App(props) {
   const { classes } = props;
   const { todoAppReducer, idPassAppReducer, linkAppReducer } = props;
 
-  const [isEditMode, setIsEditMode] = useState(true);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const handleSwitch = () => {
     setIsEditMode(!isEditMode);
