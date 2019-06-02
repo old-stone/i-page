@@ -15,6 +15,9 @@ const styles = theme => ({
   card: {
     backgroundColor: grey[900]
   },
+  cardHeader: {
+    paddingBottom: 0
+  },
   progress: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),

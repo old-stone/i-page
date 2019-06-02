@@ -12,6 +12,9 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   card: {
     backgroundColor: grey[900]
+  },
+  cardHeader: {
+    paddingBottom: 0
   }
 });
 
