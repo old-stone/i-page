@@ -4,7 +4,7 @@ import AddButton from "../../presentational/moleceules/AddButton";
 import Button from "@material-ui/core/Button";
 import FormDialog from "../../presentational/moleceules/FormDialog";
 import TextField from "@material-ui/core/TextField";
-import { addLink } from "../../../modules/linkApp";
+import { addIdPass } from "../../../modules/idPassApp";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { validateUrl } from "../../../utils/validator";
@@ -12,19 +12,21 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({});
 
-function LinkAddForm(props) {
-  const { groupId, classes } = props;
-  const { addLink } = props;
+function IdPassAddForm(props) {
+  const { classes } = props;
+  const { addIdPass } = props;
 
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
+  const [account, setAccount] = useState("");
+  const [hint, setHint] = useState("");
   const [description, setDescription] = useState("");
   const [isError, setIsError] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const onFormSubmit = e => {
     e.preventDefault();
-    addLink(groupId, title, url, description);
+    addIdPass(title, url, account, hint, description);
     setIsOpen(false);
   };
 
@@ -34,9 +36,11 @@ function LinkAddForm(props) {
 
   const handleClose = () => {
     setIsOpen(false);
-    setTitle(props.title);
-    setUrl(props.url);
-    setDescription(props.description);
+    setTitle("");
+    setUrl("");
+    setAccount("");
+    setHint("");
+    setDescription("");
     setIsError(false);
   };
 
@@ -50,15 +54,26 @@ function LinkAddForm(props) {
     setIsError(Boolean(url) && !validateUrl(url));
   };
 
+  const changeAccount = e => {
+    setAccount(e.target.value);
+  };
+
+  const changeHint = e => {
+    setHint(e.target.value);
+  };
+
   const changeDescription = e => {
     setDescription(e.target.value);
   };
 
   return (
     <>
-      <AddButton xs={12} md={3} handleClickOpen={handleClickOpen} />
+      <AddButton xs={12} md={12} handleClickOpen={handleClickOpen} />
       <FormDialog
-        title="リンクを追加する"
+        title="アカウント情報を追加する"
+        isOpen={isOpen}
+        onFormSubmit={onFormSubmit}
+        handleClose={handleClose}
         fields={[
           <TextField
             key="title"
@@ -84,7 +99,28 @@ function LinkAddForm(props) {
             variant="outlined"
             onChange={changeUrl}
             margin="dense"
-            required
+            fullWidth
+          />,
+          <TextField
+            key="account"
+            id="outlined-account"
+            label="ID"
+            className={classes.textField}
+            value={account}
+            variant="outlined"
+            onChange={changeAccount}
+            margin="dense"
+            fullWidth
+          />,
+          <TextField
+            key="hint"
+            id="outlined-hint"
+            label="パスワードのヒント"
+            className={classes.textField}
+            value={hint}
+            variant="outlined"
+            onChange={changeHint}
+            margin="dense"
             fullWidth
           />,
           <TextField
@@ -107,14 +143,11 @@ function LinkAddForm(props) {
             key="addButton"
             type="submit"
             color="primary"
-            disabled={isError || !title || !url}
+            disabled={isError || !title}
           >
             追加
           </Button>
         ]}
-        isOpen={isOpen}
-        onFormSubmit={onFormSubmit}
-        handleClose={handleClose}
       />
     </>
   );
@@ -126,11 +159,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addLink: bindActionCreators(addLink, dispatch)
+    addIdPass: bindActionCreators(addIdPass, dispatch)
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(LinkAddForm));
+)(withStyles(styles)(IdPassAddForm));

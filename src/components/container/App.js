@@ -58,7 +58,6 @@ function App(props) {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     todoAppReducer: state.todoAppReducer,
     idPassAppReducer: state.idPassAppReducer,

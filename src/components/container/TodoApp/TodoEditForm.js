@@ -79,6 +79,7 @@ function TodoEditForm(props) {
             variant="outlined"
             onChange={changeTitle}
             margin="dense"
+            required
             fullWidth
           />,
           <TextField

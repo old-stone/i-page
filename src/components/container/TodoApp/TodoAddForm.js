@@ -71,6 +71,7 @@ function TodoAddForm(props) {
           onChange={handleChangeTitle}
           value={title}
           style={{ width: "100%" }}
+          required
         />
         <IconButton
           className={classes.oneLineButton}

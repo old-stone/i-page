@@ -1,23 +1,17 @@
 import React, { useState } from "react";
 
+import IdPassEditForm from "./IdPassEditForm";
+import Link from "@material-ui/core/Link";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { toggleTodo } from "../../../modules/todoApp";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({});
 
 function TodoItem(props) {
   const { id, title, url, account, hint, description, isEditMode } = props;
-  const { toggleTodo } = props;
 
   const [isHovering, setIsHovering] = useState(false);
-
-  const handleToggle = id => () => {
-    toggleTodo(id);
-  };
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -28,28 +22,39 @@ function TodoItem(props) {
   };
 
   return (
-    <TableRow onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
-      <TableCell component="th" scope="row">
-        {title}
+    <TableRow>
+      <TableCell component="th" scope="row" size="small">
+        <Link
+          href={url}
+          target="_blank"
+          rel="noopener"
+          style={{ width: "100%" }}
+        >
+          {title}
+        </Link>
       </TableCell>
-      <TableCell>{account}</TableCell>
-      <TableCell>{isHovering ? hint : "**********"}</TableCell>
-      <TableCell>{description}</TableCell>
+      <TableCell size="small">{account}</TableCell>
+      <TableCell
+        size="small"
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        {hint && (isHovering ? hint : "**********")}
+      </TableCell>
+      <TableCell size="small">{description}</TableCell>
+      <TableCell size="small">
+        <IdPassEditForm
+          id={id}
+          title={title}
+          url={url}
+          account={account}
+          hint={hint}
+          description={description}
+          isEditMode={isEditMode}
+        />
+      </TableCell>
     </TableRow>
   );
 }
 
-function mapStateToProps(state) {
-  return {};
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    toggleTodo: bindActionCreators(toggleTodo, dispatch)
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(TodoItem));
+export default withStyles(styles)(TodoItem);

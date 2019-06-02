@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import { deleteIdPass, editIdPass } from "../../../modules/idPassApp";
 
-import AddButton from "../../presentational/moleceules/AddButton";
 import Button from "@material-ui/core/Button";
+import EditIcon from "@material-ui/icons/Edit";
 import FormDialog from "../../presentational/moleceules/FormDialog";
+import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
-import { addLink } from "../../../modules/linkApp";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { validateUrl } from "../../../utils/validator";
@@ -12,19 +13,21 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({});
 
-function LinkAddForm(props) {
-  const { groupId, classes } = props;
-  const { addLink } = props;
+function IdPassEditForm(props) {
+  const { id, isEditMode, classes } = props;
+  const { editIdPass, deleteIdPass } = props;
 
-  const [title, setTitle] = useState("");
-  const [url, setUrl] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState(props.title);
+  const [url, setUrl] = useState(props.url);
+  const [account, setAccount] = useState(props.account);
+  const [hint, setHint] = useState(props.hint);
+  const [description, setDescription] = useState(props.description);
   const [isError, setIsError] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const onFormSubmit = e => {
     e.preventDefault();
-    addLink(groupId, title, url, description);
+    editIdPass(id, title, url, account, hint, description);
     setIsOpen(false);
   };
 
@@ -36,8 +39,14 @@ function LinkAddForm(props) {
     setIsOpen(false);
     setTitle(props.title);
     setUrl(props.url);
+    setAccount(props.account);
+    setHint(props.hint);
     setDescription(props.description);
     setIsError(false);
+  };
+
+  const handleClickDelete = () => {
+    deleteIdPass(id);
   };
 
   const changeTitle = e => {
@@ -50,15 +59,35 @@ function LinkAddForm(props) {
     setIsError(Boolean(url) && !validateUrl(url));
   };
 
+  const changeAccount = e => {
+    setAccount(e.target.value);
+  };
+
+  const changeHint = e => {
+    setHint(e.target.value);
+  };
+
   const changeDescription = e => {
     setDescription(e.target.value);
   };
 
   return (
     <>
-      <AddButton xs={12} md={3} handleClickOpen={handleClickOpen} />
+      <IconButton
+        edge="end"
+        aria-label="Comments"
+        onClick={handleClickOpen}
+        style={{
+          visibility: isEditMode ? "visible" : "hidden"
+        }}
+      >
+        <EditIcon />
+      </IconButton>
       <FormDialog
-        title="リンクを追加する"
+        title="アカウント情報を編集する"
+        isOpen={isOpen}
+        onFormSubmit={onFormSubmit}
+        handleClose={handleClose}
         fields={[
           <TextField
             key="title"
@@ -84,7 +113,28 @@ function LinkAddForm(props) {
             variant="outlined"
             onChange={changeUrl}
             margin="dense"
-            required
+            fullWidth
+          />,
+          <TextField
+            key="account"
+            id="outlined-account"
+            label="ID"
+            className={classes.textField}
+            value={account}
+            variant="outlined"
+            onChange={changeAccount}
+            margin="dense"
+            fullWidth
+          />,
+          <TextField
+            key="hint"
+            id="outlined-hint"
+            label="パスワードのヒント"
+            className={classes.textField}
+            value={hint}
+            variant="outlined"
+            onChange={changeHint}
+            margin="dense"
             fullWidth
           />,
           <TextField
@@ -100,21 +150,25 @@ function LinkAddForm(props) {
           />
         ]}
         buttons={[
+          <Button
+            key="deleteButton"
+            onClick={handleClickDelete}
+            color="secondary"
+          >
+            削除
+          </Button>,
           <Button key="cancelButton" onClick={handleClose} color="primary">
             キャンセル
           </Button>,
           <Button
-            key="addButton"
+            key="saveButton"
             type="submit"
             color="primary"
-            disabled={isError || !title || !url}
+            disabled={isError || !title}
           >
-            追加
+            保存
           </Button>
         ]}
-        isOpen={isOpen}
-        onFormSubmit={onFormSubmit}
-        handleClose={handleClose}
       />
     </>
   );
@@ -126,11 +180,12 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addLink: bindActionCreators(addLink, dispatch)
+    editIdPass: bindActionCreators(editIdPass, dispatch),
+    deleteIdPass: bindActionCreators(deleteIdPass, dispatch)
   };
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(LinkAddForm));
+)(withStyles(styles)(IdPassEditForm));

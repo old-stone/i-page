@@ -42,7 +42,7 @@ const theme = createMuiTheme({
 
 // 開発中のstore確認コード
 // store.subscribe(console.log(store.getState()));
-console.log(theme);
+
 ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <CssBaseline />

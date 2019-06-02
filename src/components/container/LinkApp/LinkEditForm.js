@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { validateUrl } from "../../../utils/validator";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({});
@@ -51,12 +52,7 @@ function LinkEditForm(props) {
   const changeUrl = e => {
     const url = e.target.value;
     setUrl(url);
-    setIsError(
-      Boolean(url) &&
-        !/https?:\/\/(www\.)?(?:localhost|[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_+.~#?&//=]*))/g.test(
-          url
-        )
-    );
+    setIsError(Boolean(url) && !validateUrl(url));
   };
 
   const changeDescription = e => {
@@ -92,6 +88,7 @@ function LinkEditForm(props) {
             variant="outlined"
             onChange={changeTitle}
             margin="dense"
+            required
             fullWidth
           />,
           <TextField
@@ -105,6 +102,7 @@ function LinkEditForm(props) {
             variant="outlined"
             onChange={changeUrl}
             margin="dense"
+            required
             fullWidth
           />,
           <TextField

@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import IdPass from "./IdPass";
+import IdPassAddForm from "./IdPassAddForm";
 import React from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -21,6 +22,9 @@ const styles = theme => ({
   },
   cardContent: {
     paddingTop: 0
+  },
+  table: {
+    marginBottom: theme.spacing(2)
   }
 });
 
@@ -39,10 +43,19 @@ function IdApp(props) {
         <Table className={classes.table} size="small">
           <TableHead>
             <TableRow>
-              <TableCell style={{ width: "20%" }}>対象サービス</TableCell>
-              <TableCell style={{ width: "20%" }}>ID</TableCell>
-              <TableCell style={{ width: "30%" }}>パスワードのヒント</TableCell>
-              <TableCell style={{ width: "30%" }}>補足</TableCell>
+              <TableCell size="small" style={{ width: "20%" }}>
+                対象サービス
+              </TableCell>
+              <TableCell size="small" style={{ width: "20%" }}>
+                ID
+              </TableCell>
+              <TableCell size="small" style={{ width: "25%" }}>
+                パスワードのヒント
+              </TableCell>
+              <TableCell size="small" style={{ width: "30%" }}>
+                補足
+              </TableCell>
+              <TableCell size="small" style={{ width: "5%" }} />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -55,10 +68,12 @@ function IdApp(props) {
                 account={item.account}
                 hint={item.hint}
                 description={item.description}
+                isEditMode={isEditMode}
               />
             ))}
           </TableBody>
         </Table>
+        {isEditMode && <IdPassAddForm />}
       </CardContent>
     </Card>
   );
