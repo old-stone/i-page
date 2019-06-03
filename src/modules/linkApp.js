@@ -8,7 +8,7 @@ const DELETE_LINK = "DELETE_LINK";
 const initialState = {
   title: "Links",
   description:
-    "[ L:local S:vega-fs N:other server R:repository H:http(s) V:ssl-vpn ]",
+    "[ L:local S:file server N:other server R:repository H:http(s) V:ssl-vpn ]",
   groups: [
     {
       id: 0,
