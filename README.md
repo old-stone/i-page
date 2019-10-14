@@ -3,6 +3,8 @@
 前回作ったeasy-rezept-viewerのディレクトリ構成がゴミだったから、
 ducksパターンやってみたかっただけ
 
+https://ipage.oldst.one/
+
 ## Overview
 
 自分専用のホームページ
