@@ -1,5 +1,8 @@
 # iPage
 
+前回作ったeasy-rezept-viewerのディレクトリ構成がゴミだったから、
+ducksパターンやってみたかっただけ
+
 ## Overview
 
 自分専用のホームページ
